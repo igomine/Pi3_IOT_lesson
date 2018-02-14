@@ -40,7 +40,7 @@ def read_word_2c(adr):
 
 
 while True:
-    print("Raw and Scaled Acelerometer data\n")
+    # print("Raw and Scaled Acelerometer data\n")
 
     gyro_xout = read_word_2c(gyro_xout_h)  # We just need to put H byte address
     gyro_yout = read_word_2c(gyro_yout_h)  # as we are reading the word data
@@ -53,4 +53,4 @@ while True:
     print("X>\t Raw: ", gyro_xout, "\t Scaled: ", gyro_xout_scaled)
     print("Y>\t Raw: ", gyro_yout, "\t Scaled: ", gyro_yout_scaled)
     print("Z>\t Raw: ", gyro_zout, "\t Scaled: ", gyro_zout_scaled)
-    time.sleep(1)
+    time.sleep(0.1)
