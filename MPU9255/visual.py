@@ -35,7 +35,7 @@ def init():
 
 
 def read_values():
-    link = "http://10.0.0.101:8080"  # Your pi IP and port at home
+    link = "http://0.0.0.0:8080"  # Your pi IP and port at home
     #link = "http://155.246.169.150:8080"  #Your pi IP and port at stevens
     f = urllib.urlopen(link)
     myfile = f.read()
@@ -63,7 +63,7 @@ def run():
                 return
 
         # values = read_values()
-        r = http.request('GET', 'http://10.0.0.101:8080')
+        r = http.request('GET', 'http://0.0.0.0:8080')
         myfile = bytes.decode(r.data)
         values = myfile.split(" ")
         x_angle = values[0]

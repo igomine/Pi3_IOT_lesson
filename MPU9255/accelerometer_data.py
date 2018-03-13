@@ -12,6 +12,8 @@ accel_xout_h = 0x3b
 accel_yout_h = 0x3d
 accel_zout_h = 0x3f
 
+chip_id = bus.read_byte_data(address, 0x75)
+
 # Setting power register to start getting sesnor data
 bus.write_byte_data(address, power_mgmt_1, 0)
 
@@ -40,18 +42,23 @@ def read_word_2c(adr):
         return val
 
 
+
 while True:
-    print("Raw and Scaled Acelerometer data\n")
+    # print("Raw and Scaled Acelerometer data\n")
 
     accel_xout = read_word_2c(accel_xout_h)  # We just need to put H byte address
     accel_yout = read_word_2c(accel_yout_h)  # as we are reading the word data
     accel_zout = read_word_2c(accel_zout_h)
 
-    accel_xout_scaled = accel_xout / 2048.0  # According to the sensitivity you set
-    accel_yout_scaled = accel_yout / 2048.0
-    accel_zout_scaled = accel_zout / 2048.0
+    # accel_xout_scaled = accel_xout / 2048.0  # According to the sensitivity you set
+    # accel_yout_scaled = accel_yout / 2048.0
+    # accel_zout_scaled = accel_zout / 2048.0
+
+    accel_xout_scaled = accel_xout / 8192.0  # According to the sensitivity you set
+    accel_yout_scaled = accel_yout / 8192.0
+    accel_zout_scaled = accel_zout / 8192.0
 
     print("X>\t Raw: ", accel_xout, "\t Scaled: ", accel_xout_scaled)
     print("Y>\t Raw: ", accel_yout, "\t Scaled: ", accel_yout_scaled)
     print("Z>\t Raw: ", accel_zout, "\t Scaled: ", accel_zout_scaled)
-    time.sleep(1)
+    time.sleep(0.1)

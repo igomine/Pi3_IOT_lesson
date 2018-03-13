@@ -24,7 +24,7 @@ def read_word(adr):
 
 def read_word_2c(adr):
     val = read_word(adr)
-    if (val >= 0x8000):
+    if val >= 0x8000:
         return -((65535 - val) + 1)
     else:
         return val
@@ -44,6 +44,11 @@ def get_x_rotation(x, y, z):
     return math.degrees(radians)
 
 
+def get_z_rotation(x, y, z):
+    radians = math.atan2(z, dist(x, z))
+    return math.degrees(radians)
+
+
 class index:
     def GET(self):
         accel_xout = read_word_2c(0x3b)
@@ -54,7 +59,9 @@ class index:
         accel_yout_scaled = accel_yout / 16384
         accel_zout_scaled = accel_zout / 16384
 
-        return str(get_x_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled))+" "+str(get_y_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled))
+        return str(get_x_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled))\
+               + " "+str(get_y_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled))\
+               + " "+str(get_z_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled))
 
 if __name__ == "__main__":
 
