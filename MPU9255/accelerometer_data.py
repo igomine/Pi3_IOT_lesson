@@ -14,6 +14,8 @@ accel_zout_h = 0x3f
 
 chip_id = bus.read_byte_data(address, 0x75)
 
+# i2c_id_0 = bus.read_byte_data(address, 0x37)
+
 # Setting power register to start getting sesnor data
 bus.write_byte_data(address, power_mgmt_1, 0)
 
