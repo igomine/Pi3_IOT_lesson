@@ -15,7 +15,6 @@ urls = (
 )
 
 
-
 class ReadIMUThread(threading.Thread):
 
     next_due = 0
