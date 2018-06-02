@@ -55,12 +55,12 @@ while True:
     # accel_xout_scaled = accel_xout / 2048.0  # According to the sensitivity you set
     # accel_yout_scaled = accel_yout / 2048.0
     # accel_zout_scaled = accel_zout / 2048.0
-
+    print(accel_xout, accel_yout, accel_zout)
     accel_xout_scaled = accel_xout / 8192.0  # According to the sensitivity you set
     accel_yout_scaled = accel_yout / 8192.0
     accel_zout_scaled = accel_zout / 8192.0
 
-    print("X>\t Raw: ", accel_xout, "\t Scaled: ", accel_xout_scaled)
-    print("Y>\t Raw: ", accel_yout, "\t Scaled: ", accel_yout_scaled)
-    print("Z>\t Raw: ", accel_zout, "\t Scaled: ", accel_zout_scaled)
+    # print("X>\t Raw: ", accel_xout, "\t Scaled: ", accel_xout_scaled)
+    # print("Y>\t Raw: ", accel_yout, "\t Scaled: ", accel_yout_scaled)
+    # print("Z>\t Raw: ", accel_zout, "\t Scaled: ", accel_zout_scaled)
     time.sleep(0.1)
