@@ -60,7 +60,8 @@ while True:
     accel_yout_scaled = accel_yout / 8192.0
     accel_zout_scaled = accel_zout / 8192.0
 
-    print("X>\t Raw: ", accel_xout, "\t Scaled: ", accel_xout_scaled)
-    print("Y>\t Raw: ", accel_yout, "\t Scaled: ", accel_yout_scaled)
-    print("Z>\t Raw: ", accel_zout, "\t Scaled: ", accel_zout_scaled)
+    print(accel_xout, accel_yout, accel_zout)
+    # print("X>\t Raw: ", accel_xout, "\t Scaled: ", accel_xout_scaled)
+    # print("Y>\t Raw: ", accel_yout, "\t Scaled: ", accel_yout_scaled)
+    # print("Z>\t Raw: ", accel_zout, "\t Scaled: ", accel_zout_scaled)
     time.sleep(0.1)
