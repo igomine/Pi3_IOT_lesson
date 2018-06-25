@@ -1,10 +1,15 @@
 import sys, getopt
 
+
 sys.path.append('.')
 import RTIMU
 import os.path
 import time
 import math
+# from .math3d import *
+import euclid3
+
+
 
 SETTINGS_FILE = "RTIMULib"
 
@@ -33,16 +38,26 @@ imu.setCompassEnable(True)
 poll_interval = imu.IMUGetPollInterval()
 print("Recommended Poll Interval: %dmS\n" % poll_interval)
 
+q = euclid3.Quaternion()
+
 while True:
     if imu.IMURead():
         # x, y, z = imu.getFusionData()
         # print("%f %f %f" % (x,y,z))
         data = imu.getIMUData()
         fusionPose = data["fusionQPose"]
-
+        q.w = fusionPose[0]
+        q.x = fusionPose[1]
+        q.y = fusionPose[2]
+        q.z = fusionPose[3]
+        print(math.atan2(2*q.y*q.w-2*q.x*q.z,1-2*q.y*q.y -2*q.z*q.z))
+        # print(math.asin(2*(q.x * q.y + q.w * q.z)))
+        # print(q.w,q.x,q.y,q.z)
+        # print(q.get_euler())
         # print("r: %f p: %f y: %f" % (math.degrees(fusionPose[0]),
         #     math.degrees(fusionPose[1]), math.degrees(fusionPose[2])))
         time.sleep(poll_interval*1.0/1000.0)
+
 
 
 
