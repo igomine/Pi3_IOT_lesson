@@ -4,9 +4,10 @@ import time
 import datetime
 
 # initialize GPIO
+GPIO.cleanup()
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
-GPIO.cleanup()
+
 
 # read data using pin 14
 instance = dht11.DHT11(pin=2)
@@ -18,4 +19,4 @@ while True:
         print("Temperature: %d C" % result.temperature)
         print("Humidity: %d %%" % result.humidity)
 
-    time.sleep(1)
+    time.sleep(0.1)
