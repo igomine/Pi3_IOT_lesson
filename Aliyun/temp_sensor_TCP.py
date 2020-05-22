@@ -72,5 +72,7 @@ while True:
             lk.disconnect()
         elif msg == "2":
             lk.connect_async()
+        # elif msg == "3":
+        #     lk.thing_trigger_event()
         else:
             sys.exit()
