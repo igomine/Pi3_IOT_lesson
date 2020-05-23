@@ -5,6 +5,34 @@
 	},
 	"properties":[
 		{
+			"identifier":"temp_data",
+			"name":"温度传感器数据",
+			"accessMode":"r",
+			"required":false,
+			"dataType":{
+				"type":"float",
+				"specs":{
+					"min":"-100",
+					"max":"100",
+					"step":"0.1"
+				}
+			}
+		},
+		{
+			"identifier":"air_conditioning_speed",
+			"name":"空调风速",
+			"accessMode":"rw",
+			"required":false,
+			"dataType":{
+				"type":"int",
+				"specs":{
+					"min":"0",
+					"max":"100",
+					"step":"1"
+				}
+			}
+		},
+		{
 			"identifier":"PowerSwitch",
 			"name":"电源开关",
 			"accessMode":"rw",
@@ -28,6 +56,30 @@
 			"method":"thing.event.property.post",
 			"outputData":[
 				{
+					"identifier":"temp_data",
+					"name":"温度传感器数据",
+					"dataType":{
+						"type":"float",
+						"specs":{
+							"min":"-100",
+							"max":"100",
+							"step":"0.1"
+						}
+					}
+				},
+				{
+					"identifier":"air_conditioning_speed",
+					"name":"空调风速",
+					"dataType":{
+						"type":"int",
+						"specs":{
+							"min":"0",
+							"max":"100",
+							"step":"1"
+						}
+					}
+				},
+				{
 					"identifier":"PowerSwitch",
 					"name":"电源开关",
 					"dataType":{
@@ -47,18 +99,7 @@
 			"required":false,
 			"method":"thing.event.passEvent.post",
 			"outputData":[
-				{
-					"identifier":"temp",
-					"name":"温度",
-					"dataType":{
-						"type":"float",
-						"specs":{
-							"min":"-50",
-							"max":"100",
-							"step":"0.1"
-						}
-					}
-				}
+				
 			]
 		}
 	],
@@ -71,6 +112,18 @@
 			"desc":"属性设置",
 			"method":"thing.service.property.set",
 			"inputData":[
+				{
+					"identifier":"air_conditioning_speed",
+					"name":"空调风速",
+					"dataType":{
+						"type":"int",
+						"specs":{
+							"min":"0",
+							"max":"100",
+							"step":"1"
+						}
+					}
+				},
 				{
 					"identifier":"PowerSwitch",
 					"name":"电源开关",
@@ -95,9 +148,35 @@
 			"desc":"属性获取",
 			"method":"thing.service.property.get",
 			"inputData":[
+				"temp_data",
+				"air_conditioning_speed",
 				"PowerSwitch"
 			],
 			"outputData":[
+				{
+					"identifier":"temp_data",
+					"name":"温度传感器数据",
+					"dataType":{
+						"type":"float",
+						"specs":{
+							"min":"-100",
+							"max":"100",
+							"step":"0.1"
+						}
+					}
+				},
+				{
+					"identifier":"air_conditioning_speed",
+					"name":"空调风速",
+					"dataType":{
+						"type":"int",
+						"specs":{
+							"min":"0",
+							"max":"100",
+							"step":"1"
+						}
+					}
+				},
 				{
 					"identifier":"PowerSwitch",
 					"name":"电源开关",

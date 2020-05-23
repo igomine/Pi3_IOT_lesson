@@ -16,8 +16,8 @@ class CustomerThing(object):
         self.__linkkit = linkkit.LinkKit(
             host_name="cn-shanghai",
             product_key="a1HOVnFzzAx",
-            device_name="tmp_sensor",
-            device_secret="bRKt9TCsSB0Oy9IsC73rIA8AzzpVSn38")
+            device_name="air_conditioning",
+            device_secret="qJpNubFoJKlYbOXCshi662qfyszXrj0l")
         self.__linkkit.enable_logger(logging.DEBUG)
         self.__linkkit.on_device_dynamic_register = self.on_device_dynamic_register
         self.__linkkit.on_connect = self.on_connect
@@ -37,7 +37,6 @@ class CustomerThing(object):
         self.__linkkit.thing_setup("model.json")
         self.__linkkit.config_device_info("Eth|03ACDEFF0032|Eth|03ACDEFF0031")
         self.__call_service_request_id = 0
-        self.temp = 26
 
     def on_device_dynamic_register(self, rc, value, userdata):
         if rc == 0:
@@ -112,13 +111,11 @@ class CustomerThing(object):
                 sys.exit()
             else:
                 if msg == "1":
-                    prop_data = {
-                        "temp_data": self.temp,
-                        # "test": 222
+                    event_data = {
+                        "temp": 3.14,
+                        "test": 222
                     }
-                    self.__linkkit.thing_post_property(prop_data)
-                    self.temp = self.temp + 1
-                    print(self.temp)
+                    self.__linkkit.thing_trigger_event(("passEvent", event_data))
                 elif msg == "2":
                     prop_data = {
                         "abs_speed": 11,
