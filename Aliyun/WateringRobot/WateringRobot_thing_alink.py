@@ -5,11 +5,19 @@ import traceback
 import inspect
 import time
 import logging
+from enum import Enum
 
 # config log
 __log_format = '%(asctime)s-%(process)d-%(thread)d - %(name)s:%(module)s:%(funcName)s - %(levelname)s - %(message)s'
 logging.basicConfig(format=__log_format)
 
+
+class EnumRobotState(Enum):
+    Stop = 0
+    Forward = 1
+    Backward = 2
+    TurnLeft = 3
+    TurnRight =4
 
 class CustomerThing(object):
     def __init__(self):
@@ -38,6 +46,45 @@ class CustomerThing(object):
         self.__linkkit.config_device_info("Eth|03ACDEFF0032|Eth|03ACDEFF0031")
         self.__call_service_request_id = 0
 
+        self.ListRobotStateName = ["Stop", "Forward", "Backward", "TurnLeft", "TurnRight"]
+        self.ListRobotStateValue = [0]*5
+        self.CurRobotState = "Stop"
+
+        # self.CurRobotState = EnumRobotState.Stop
+        self.ListRobotState = [0]*5
+        self.DictRobotState = {
+            "Stop": 1,
+            "Forward": 0,
+            "Backward": 0,
+            "TurnLeft": 0,
+            "TurnRight": 0
+        }
+        # self.PropPayload = [False]*5
+
+    def report_robotstate(self):
+        # self.ListRobotState = [0] * 5
+        # self.ListRobotState[self.CurRobotState.value] = 1
+        # prop_data = {
+        #     "Stop": self.ListRobotState[0],
+        #     "Forward": self.ListRobotState[1],
+        #     "Backward": self.ListRobotState[2],
+        #     "TurnLeft": self.ListRobotState[3],
+        #     "TurnRight": self.ListRobotState[4]
+        # }
+        for i in range(5):
+            if self.CurRobotState == self.ListRobotStateName[i]:
+                self.ListRobotStateValue[i] = 1
+            else:
+                self.ListRobotStateValue[i] = 0
+        prop_data = {
+            "Stop": self.ListRobotStateValue[0],
+            "Forward": self.ListRobotStateValue[1],
+            "Backward": self.ListRobotStateValue[2],
+            "TurnLeft": self.ListRobotStateValue[3],
+            "TurnRight": self.ListRobotStateValue[4]
+        }
+        self.__linkkit.thing_post_property(prop_data)
+
     def on_device_dynamic_register(self, rc, value, userdata):
         if rc == 0:
             print("dynamic register device success, value:" + value)
@@ -46,6 +93,9 @@ class CustomerThing(object):
 
     def on_connect(self, session_flag, rc, userdata):
         print("on_connect:%d,rc:%d,userdata:" % (session_flag, rc))
+        # self.report_robotstate()
+        # print("report state once")
+
 
     def on_disconnect(self, rc, userdata):
         print("on_disconnect:rc:%d,userdata:" % rc)
@@ -68,9 +118,21 @@ class CustomerThing(object):
 
     def on_thing_prop_changed(self, params, userdata):
         print("on_thing_prop_changed params:" + str(params))
+        # self.ListRobotStateValue = [0] * 5
+        for i in range(5):
+            if self.ListRobotStateName[i] in params.keys():
+                self.ListRobotStateValue[i] = params[self.ListRobotStateName[i]]
+                self.CurRobotState = self.ListRobotStateName[i]
+            else:
+                self.ListRobotStateValue[i] = 0
+        self.report_robotstate()
+        print("report state once")
 
     def on_thing_enable(self, userdata):
         print("on_thing_enable")
+        print("report state once")
+        self.report_robotstate()
+
 
     def on_thing_disable(self, userdata):
         print("on_thing_disable")
@@ -112,14 +174,14 @@ class CustomerThing(object):
             else:
                 if msg == "1":
                     event_data = {
-                        "temp": 3.14,
-                        "test": 222
+                        "Forward": 1,
+                        "Stop": 0
                     }
                     self.__linkkit.thing_trigger_event(("passEvent", event_data))
                 elif msg == "2":
                     prop_data = {
-                        "abs_speed": 11,
-                        "power_stage": 10
+                        "Forward": 1,
+                        "Stop": 0
                     }
                     self.__linkkit.thing_post_property(prop_data)
                 elif msg == "3":
