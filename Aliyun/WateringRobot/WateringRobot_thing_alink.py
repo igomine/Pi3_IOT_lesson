@@ -17,7 +17,8 @@ class EnumRobotState(Enum):
     Forward = 1
     Backward = 2
     TurnLeft = 3
-    TurnRight =4
+    TurnRight = 4
+
 
 class CustomerThing(object):
     def __init__(self):
@@ -51,14 +52,14 @@ class CustomerThing(object):
         self.CurRobotState = "Stop"
 
         # self.CurRobotState = EnumRobotState.Stop
-        self.ListRobotState = [0]*5
-        self.DictRobotState = {
-            "Stop": 1,
-            "Forward": 0,
-            "Backward": 0,
-            "TurnLeft": 0,
-            "TurnRight": 0
-        }
+        # self.ListRobotState = [0]*5
+        # self.DictRobotState = {
+        #     "Stop": 1,
+        #     "Forward": 0,
+        #     "Backward": 0,
+        #     "TurnLeft": 0,
+        #     "TurnRight": 0
+        # }
         # self.PropPayload = [False]*5
 
     def report_robotstate(self):
@@ -116,6 +117,7 @@ class CustomerThing(object):
     def on_publish_topic(self, mid, userdata):
         print("on_publish_topic mid:%d" % mid)
 
+    # server change property of device callback
     def on_thing_prop_changed(self, params, userdata):
         print("on_thing_prop_changed params:" + str(params))
         # self.ListRobotStateValue = [0] * 5
@@ -142,6 +144,7 @@ class CustomerThing(object):
               (event, request_id, code, str(data), message))
         pass
 
+    # device post property to server complete callback
     def on_thing_prop_post(self, request_id, code, data, message,userdata):
         print("on_thing_prop_post request id:%s, code:%d, data:%s message:%s" %
               (request_id, code, str(data), message))
