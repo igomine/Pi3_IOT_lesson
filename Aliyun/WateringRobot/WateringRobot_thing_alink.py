@@ -97,7 +97,6 @@ class CustomerThing(object):
         # self.report_robotstate()
         # print("report state once")
 
-
     def on_disconnect(self, rc, userdata):
         print("on_disconnect:rc:%d,userdata:" % rc)
 
@@ -134,7 +133,6 @@ class CustomerThing(object):
         print("on_thing_enable")
         print("report state once")
         self.report_robotstate()
-
 
     def on_thing_disable(self, userdata):
         print("on_thing_disable")

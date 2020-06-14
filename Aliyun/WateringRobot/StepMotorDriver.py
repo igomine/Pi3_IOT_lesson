@@ -2,45 +2,57 @@ import time
 import RPi.GPIO as GPIO
 import threading
 
+# EN, CLK, CW
+listRightWheelGPIO = [2, 3, 15]
+listLeftWheelGPIO = []
+
 
 class WaterRobotMotorDriver(threading.Thread):
-    def __init__(self, listRightWheelGPIO, listLeftWheelGPIO):
+    def __init__(self, listrightwheelgpio, listleftwheelgpio):
         # change for multi threading
         super(WaterRobotMotorDriver, self).__init__()
         self.__running = threading.Event()
         self.__running.set()
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(listrightwheelgpio[0], GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.setup(listrightwheelgpio[1], GPIO.OUT, initial=GPIO.LOW)
+        GPIO.setup(listrightwheelgpio[2], GPIO.OUT, initial=GPIO.LOW)
+        GPIO.setup(listleftwheelgpio[0], GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.setup(listleftwheelgpio[1], GPIO.OUT, initial=GPIO.LOW)
+        GPIO.setup(listleftwheelgpio[2], GPIO.OUT, initial=GPIO.LOW)
+        self.freq = 50
+        self.RightWheelPWM = GPIO.PWM(listrightwheelgpio[1], self.freq)
+        self.LeftWheelPWM = GPIO.PWM(listleftwheelgpio[1], self.freq)
+        self.RightWheelPWM.ChangeDutyCycle(50)
+        self.LeftWheelPWM.ChangeDutyCycle(50)
+        self.RightWheelPWM.stop()
+        self.LeftWheelPWM.stop()
 
+    def wheelfreqset(self, freq):
+        self.RightWheelPWM.ChangeFrequency(freq)
+        self.LeftWheelPWM.ChangeFrequency(freq)
 
+    def rightwheelenable(self):
+        GPIO.output(listRightWheelGPIO[0], GPIO.LOW)
 
-RightWheelEn = 2
-RightWheelCLK = 3
-RightWheelCW = 15
+    def leftwheelenable(self):
+        GPIO.output(listLeftWheelGPIO[0], GPIO.LOW)
 
-GPIO.setmode(GPIO.BCM)
+    def rightwheeldisable(self):
+        GPIO.output(listRightWheelGPIO[0], GPIO.HIGH)
 
-GPIO.setup(RightWheelEn, GPIO.OUT, initial=GPIO.HIGH)
-GPIO.setup(RightWheelCW, GPIO.OUT, initial=GPIO.LOW)
-GPIO.setup(RightWheelCLK, GPIO.OUT, initial=GPIO.LOW)
+    def leftwheeldisable(self):
+        GPIO.output(listLeftWheelGPIO[0], GPIO.HIGH)
 
+    def forward(self):
+        self.RightWheelPWM.start(self.freq)
+        self.LeftWheelPWM.start(self.freq)
+        self.rightwheelenable()
+        self.leftwheelenable()
 
-RightWheelPWM = GPIO.PWM(RightWheelCLK, 50)
-RightWheelPWM.start(50)
+    def stop(self):
+        self.RightWheelPWM.stop()
+        self.LeftWheelPWM.stop()
+        self.leftwheeldisable()
+        self.rightwheeldisable()
 
-GPIO.output(RightWheelEn, GPIO.LOW)
-GPIO.output(RightWheelEn, GPIO.HIGH)
-GPIO.output(RightWheelEn, GPIO.LOW)
-
-# GPIO.setup(RightWheelCLK, GPIO.OUT)
-
-
-
-
-
-GPIO.output(RightWheelEn, GPIO.HIGH)
-GPIO.output(RightWheelCW, GPIO.HIGH)
-# while True:
-
-    # RightWheelPWM.ChangeDutyCycle(dc)
-    # RightWheelPWM.ChangeFrequency(f)
-    # print(GPIO.input(2))
-    # time.sleep(1)
