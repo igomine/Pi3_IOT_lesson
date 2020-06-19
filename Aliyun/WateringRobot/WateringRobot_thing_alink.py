@@ -6,18 +6,19 @@ import inspect
 import time
 import logging
 from enum import Enum
+import StepMotorDriver
 
 # config log
 __log_format = '%(asctime)s-%(process)d-%(thread)d - %(name)s:%(module)s:%(funcName)s - %(levelname)s - %(message)s'
 logging.basicConfig(format=__log_format)
 
 
-class EnumRobotState(Enum):
-    Stop = 0
-    Forward = 1
-    Backward = 2
-    TurnLeft = 3
-    TurnRight = 4
+# class EnumRobotState(Enum):
+#     Stop = 0
+#     Forward = 1
+#     Backward = 2
+#     TurnLeft = 3
+#     TurnRight = 4
 
 
 class CustomerThing(object):
