@@ -12,12 +12,16 @@ GPIO.setup(RightWheelCW, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(RightWheelCLK, GPIO.OUT, initial=GPIO.LOW)
 
 
-RightWheelPWM = GPIO.PWM(RightWheelCLK, 50)
-RightWheelPWM.start(50)
+RightWheelPWM = GPIO.PWM(RightWheelCLK, 70)
+RightWheelPWM.start(70)
 
+GPIO.output(RightWheelCW, GPIO.LOW)
 GPIO.output(RightWheelEn, GPIO.LOW)
 GPIO.output(RightWheelEn, GPIO.HIGH)
+
+GPIO.output(RightWheelCW, GPIO.HIGH)
 GPIO.output(RightWheelEn, GPIO.LOW)
+
 
 # GPIO.setup(RightWheelCLK, GPIO.OUT)
 
