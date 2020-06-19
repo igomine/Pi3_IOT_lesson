@@ -7,6 +7,9 @@ import time
 import logging
 from enum import Enum
 import StepMotorDriver
+from queue import Queue
+listRightWheelGPIO = [2, 3, 15]
+listLeftWheelGPIO = [10, 9, 11]
 
 # config log
 __log_format = '%(asctime)s-%(process)d-%(thread)d - %(name)s:%(module)s:%(funcName)s - %(levelname)s - %(message)s'
@@ -51,6 +54,8 @@ class CustomerThing(object):
         self.ListRobotStateName = ["Stop", "Forward", "Backward", "TurnLeft", "TurnRight"]
         self.ListRobotStateValue = [0]*5
         self.CurRobotState = "Stop"
+
+        # self.listqueuemsg = ['stop']
 
         # self.CurRobotState = EnumRobotState.Stop
         # self.ListRobotState = [0]*5
@@ -125,6 +130,9 @@ class CustomerThing(object):
             if self.ListRobotStateName[i] in params.keys():
                 self.ListRobotStateValue[i] = params[self.ListRobotStateName[i]]
                 self.CurRobotState = self.ListRobotStateName[i]
+                if params[self.ListRobotStateName[i]] == 1:
+                    print("send queue msg")
+                    queuecmd.put(self.ListRobotStateName[i])
             else:
                 self.ListRobotStateValue[i] = 0
         self.report_robotstate()
@@ -200,5 +208,9 @@ class CustomerThing(object):
 
 
 if __name__ == "__main__":
+    queuecmd = Queue(1)
+    # StepMotorDriver.WaterRobotMotorDriver(listLeftWheelGPIO, listRightWheelGPIO, queuecmd)
+    thread1 = StepMotorDriver.WaterRobotMotorDriver(listLeftWheelGPIO, listRightWheelGPIO, queuecmd)
+    thread1.start()
     custom_thing = CustomerThing()
     custom_thing.user_loop()

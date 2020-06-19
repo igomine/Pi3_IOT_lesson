@@ -59,28 +59,32 @@ class WaterRobotMotorDriver(threading.Thread):
             self.freq = 10
         if self.freq > 60:
             self.freq = 60
-        time.sleep(0.1)
         self.rightwheeldisable()
         self.leftwheeldisable()
-        time.sleep(0.1)
         self.RightWheelPWM.ChangeFrequency(self.freq)
         self.RightWheelPWM.ChangeDutyCycle(self.duty)
         self.LeftWheelPWM.ChangeFrequency(self.freq)
         self.LeftWheelPWM.ChangeDutyCycle(self.duty)
         self.RightWheelPWM.start(self.duty)
         self.LeftWheelPWM.start(self.duty)
-
-
-        time.sleep(0.1)
+        # time.sleep(0.1)
         GPIO.output(self.listleftwheelgpio[2], GPIO.HIGH)
         GPIO.output(self.listrightwheelgpio[2], GPIO.LOW)
-        time.sleep(0.1)
+        # time.sleep(0.1)
         self.rightwheelenable()
         self.leftwheelenable()
 
     def backward(self):
+        if self.freq < 10:
+            self.freq = 10
+        if self.freq > 60:
+            self.freq = 60
         self.rightwheeldisable()
         self.leftwheeldisable()
+        self.RightWheelPWM.ChangeFrequency(self.freq)
+        self.RightWheelPWM.ChangeDutyCycle(self.duty)
+        self.LeftWheelPWM.ChangeFrequency(self.freq)
+        self.LeftWheelPWM.ChangeDutyCycle(self.duty)
         self.RightWheelPWM.start(self.freq)
         self.LeftWheelPWM.start(self.freq)
         GPIO.output(self.listleftwheelgpio[2], GPIO.LOW)
@@ -89,16 +93,36 @@ class WaterRobotMotorDriver(threading.Thread):
         self.leftwheelenable()
 
     def turnright(self):
-        self.RightWheelPWM.start(20)
-        self.LeftWheelPWM.start(20)
+        if self.freq < 10:
+            self.freq = 10
+        if self.freq > 60:
+            self.freq = 60
+        self.rightwheeldisable()
+        self.leftwheeldisable()
+        self.RightWheelPWM.ChangeFrequency(30)
+        self.RightWheelPWM.ChangeDutyCycle(self.duty)
+        self.LeftWheelPWM.ChangeFrequency(30)
+        self.LeftWheelPWM.ChangeDutyCycle(self.duty)
+        self.RightWheelPWM.start(self.duty)
+        self.LeftWheelPWM.start(self.duty)
         GPIO.output(self.listleftwheelgpio[2], GPIO.HIGH)
         GPIO.output(self.listrightwheelgpio[2], GPIO.HIGH)
         self.rightwheelenable()
         self.leftwheelenable()
 
     def turnleft(self):
-        self.RightWheelPWM.start(20)
-        self.LeftWheelPWM.start(20)
+        if self.freq < 10:
+            self.freq = 10
+        if self.freq > 60:
+            self.freq = 60
+        self.rightwheeldisable()
+        self.leftwheeldisable()
+        self.RightWheelPWM.ChangeFrequency(30)
+        self.RightWheelPWM.ChangeDutyCycle(self.duty)
+        self.LeftWheelPWM.ChangeFrequency(30)
+        self.LeftWheelPWM.ChangeDutyCycle(self.duty)
+        self.RightWheelPWM.start(self.duty)
+        self.LeftWheelPWM.start(self.duty)
         GPIO.output(self.listleftwheelgpio[2], GPIO.LOW)
         GPIO.output(self.listrightwheelgpio[2], GPIO.LOW)
         self.rightwheelenable()
@@ -116,19 +140,20 @@ class WaterRobotMotorDriver(threading.Thread):
         while self.__running.isSet():
             print("ent running")
             cmd = self.queuecmd.get()
-            if cmd == 'forward':
+            if cmd == 'Forward':
                 print("forward")
                 self.forward()
-            elif cmd == 'backward':
+            elif cmd == 'Backward':
                 self.backward()
-            elif cmd == 'turnleft':
+            elif cmd == 'TurnLeft':
                 self.turnleft()
-            elif cmd == 'turnright':
+            elif cmd == 'TurnRight':
                 self.turnright()
-            elif cmd == 'stop':
+            elif cmd == 'Stop':
                 print("stop")
                 self.stop()
             else:
+                print("unknow cmd")
                 cmd = False
             time.sleep(0.1)
 
@@ -154,6 +179,12 @@ if __name__ == "__main__":
             if msg == "1":
                 queuecmd.put('forward')
             elif msg == "2":
+                queuecmd.put('backward')
+            elif msg == "3":
+                queuecmd.put('turnleft')
+            elif msg == "4":
+                queuecmd.put('turnright')
+            elif msg == "5":
                 queuecmd.put('stop')
             else:
                 sys.exit()
