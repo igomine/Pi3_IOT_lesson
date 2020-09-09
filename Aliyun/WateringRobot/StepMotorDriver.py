@@ -1,5 +1,5 @@
 import time
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 import threading
 from queue import Queue
 import sys
