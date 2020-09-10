@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-
+import random
 
 class Pid:
     def __init__(self, exp_val, kp, ki, kd):
@@ -21,7 +21,7 @@ class Pid:
         #                 + self.KI * self.sum_err + self.KD * (self.now_err - self.last_err)
         global pid_val
         a = pid_val[len(pid_val) - 1]
-        self.now_val = (0.7 - 0.5 * self.KP) * a + 0.5 * self.KP * self.exp_val
+        self.now_val = (0.7 - 0.5 * self.KP) * a + 0.5 * self.KP * self.exp_val + self.KI * self.sum_err
 
         return self.now_val
 
@@ -30,10 +30,10 @@ rt = 100
 pid_val = []
 pid_val.append(first_value)
 #对pid进行初始化，目标值是1000 ，p=0.1 ，i=0.15, d=0.1
-my_Pid = Pid(1000, 5.4, 0.15, 0.1)
+my_Pid = Pid(1000, 0.1, 0.15, 0.1)
 # 然后循环100次把数存进数组中去
-for i in range(0, 10):
-    pid_val.append(my_Pid.cmd_pid())
+for i in range(0, 100):
+    pid_val.append(my_Pid.cmd_pid()+random.randint(1, 10))
     print(pid_val[i])
 plt.plot(pid_val)
 plt.show()
