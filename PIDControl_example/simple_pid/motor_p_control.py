@@ -30,9 +30,9 @@ rt = 100
 pid_val = []
 pid_val.append(first_value)
 #对pid进行初始化，目标值是1000 ，p=0.1 ，i=0.15, d=0.1
-my_Pid = Pid(1000, 5.4, 0.15, 0.1)
+my_Pid = Pid(1000, 3.3, 0.15, 0.1)
 # 然后循环100次把数存进数组中去
-for i in range(0, 10):
+for i in range(0, 100):
     pid_val.append(my_Pid.cmd_pid())
     print(pid_val[i])
 plt.plot(pid_val)
