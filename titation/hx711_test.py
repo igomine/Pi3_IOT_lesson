@@ -45,7 +45,13 @@ hx.reset()
 
 hx.tare()
 
-print("Tare done! Add weight now...")
+
+# val = hx.get_weight(5)
+#
+# print(val)
+
+
+# print("Tare done! Add weight now...")
 
 # to use both channels, you'll need to tare them both
 # hx.tare_A()
